@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TEST</title>
+</head>
+<body>
+    <input id="num1">
+    <input id="num2">
+    <button id="btn1">CLICK</button>
+    <p id="num3">kk</p>
+</body>
+<script>
+    let btn = document.getElementById('btn1');
+    let btn_work = function ()
+    {
+        let elem_1 = parseInt(document.getElementById('num1').value);
+        let elem_2 = parseInt(document.getElementById('num2').value);
+        let val = elem_1 + elem_2;
+        let elem_3 = document.getElementById('num3');
+        elem_3.innerHTML = val;
+        console.log(val);
+    }
+    btn.addEventListener('click', btn_work);
+</script>
+</html>

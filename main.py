@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+# from fastapi.responses import HTMLResponse
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import db, User
@@ -20,6 +21,7 @@ def get_info_all():
     return info
 
 
+
 @app.get('/get_info_with_surname')
 def info_with_surname(surname_filter: str):
     new_session = connect_to_db()
@@ -31,6 +33,8 @@ def info_with_surname(surname_filter: str):
 @app.post('/add_new_user')
 def add_new_user(name: str, surname: str, age: int):
     new_session = connect_to_db()
+    if age <= 0:
+        raise HTTPException(status_code=422, detail='ERROR AGE')
     new_user = User(name=name, surname=surname, age=age, datetime=datetime.now())
     new_session.add(new_user)
     new_session.commit()
@@ -47,6 +51,10 @@ def connect_to_db():
     Session = sessionmaker()
     new_session = Session(bind=engine)
     return new_session
+
+
+def check_adult(age: int):
+    pass
 
 
 def main():
