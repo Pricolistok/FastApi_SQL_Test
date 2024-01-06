@@ -5,22 +5,36 @@
     <title>TEST</title>
 </head>
 <body>
-    <input id="num1">
-    <input id="num2">
-    <button id="btn1">CLICK</button>
-    <p id="num3">kk</p>
+<form name="person">
+    <input name="name">
+    <input name="surname">
+    <input name="age">
+</form>
+<button id="ny">CLICK</button>
 </body>
+
 <script>
-    let btn = document.getElementById('btn1');
-    let btn_work = function ()
-    {
-        let elem_1 = parseInt(document.getElementById('num1').value);
-        let elem_2 = parseInt(document.getElementById('num2').value);
-        let val = elem_1 + elem_2;
-        let elem_3 = document.getElementById('num3');
-        elem_3.innerHTML = val;
-        console.log(val);
-    }
-    btn.addEventListener('click', btn_work);
+    // GET
+    // fetch('http://127.0.0.1:8000/new')
+    //     .then(response => response.text())
+    //     .then(tx => alert(tx))
+
+    // let formData = new FormData(document.forms.person);
+    // alert(formData.values())
+    // POST
+
+    // function btn_work()
+    // {
+    //     let ava = new FormData(document.forms.person)
+    //     let response = fetch('http://127.0.0.1:8000/add_new_user', {
+    //       method: 'POST',
+    //       body: ava
+    //     });
+    //     console.log(ava.values())
+    // }
+    // btn1 = document.getElementById('ny');
+    // btn1.addEventListener('click', btn_work)
+    fetch('http://127.0.0.1:8000/get_info_all_users')
+    .then(response => response.json())
+    .then(tx => console.log(tx))
 </script>
-</html>

@@ -1,20 +1,29 @@
-from fastapi import FastAPI, HTTPException
-# from fastapi.responses import HTMLResponse
+from fastapi import FastAPI,  Form
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import db, User
 from datetime import datetime
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
+origins = ["*"]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get('/')
-def test_print():
-    return 'Hello world!'
+@app.head('/new')
+@app.get('/new')
+async def main():
+    return 'Hello World'
 
 
 @app.get('/get_info_all_users')
-def get_info_all():
+async def get_info_all():
     new_session = connect_to_db()
     info = new_session.query(User).all()
     new_session.close()
@@ -31,14 +40,20 @@ def info_with_surname(surname_filter: str):
 
 
 @app.post('/add_new_user')
-def add_new_user(name: str, surname: str, age: int):
+def add_new_user(name=Form(...), surname=Form(...), age=Form(...)):
     new_session = connect_to_db()
-    if age <= 0:
-        raise HTTPException(status_code=422, detail='ERROR AGE')
-    new_user = User(name=name, surname=surname, age=age, datetime=datetime.now())
+    # if age <= 0:
+    #     raise HTTPException(status_code=422, detail='ERROR AGE')
+    new_user = User(name=name, surname=surname, age=int(age), datetime=datetime.now())
     new_session.add(new_user)
     new_session.commit()
     stop_connect(new_session)
+
+
+@app.post('/login')
+def login(username=Form(...)):
+    print(username)
+    return username
 
 
 def stop_connect(new_session):
