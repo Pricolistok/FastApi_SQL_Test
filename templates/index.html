@@ -34,7 +34,12 @@
     // }
     // btn1 = document.getElementById('ny');
     // btn1.addEventListener('click', btn_work)
+
     fetch('http://127.0.0.1:8000/get_info_all_users')
     .then(response => response.json())
     .then(tx => console.log(tx))
+
+    // fetch('http://127.0.0.1:8000/pic')
+    // .then(response => response)
+    // .then(tx => tx)
 </script>

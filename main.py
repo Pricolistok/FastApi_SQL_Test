@@ -1,9 +1,11 @@
-from fastapi import FastAPI,  Form
+from fastapi import FastAPI, Form, Request
+from fastapi.responses import HTMLResponse
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models import db, User
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
@@ -15,6 +17,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+templates = Jinja2Templates(directory="templates")
 
 @app.head('/new')
 @app.get('/new')
@@ -29,6 +34,10 @@ async def get_info_all():
     new_session.close()
     return info
 
+
+@app.get("/pic", response_class=HTMLResponse)
+def read_items(request: Request):
+    return templates.TemplateResponse('index.html', {"request": request})
 
 
 @app.get('/get_info_with_surname')
